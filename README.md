@@ -1,102 +1,75 @@
-# Capstone Project: Predict Students' Dropout and Academic Success
+# Capstone Project: Predict Students' Dropout and Academic Success 
+## This work is done by Yuning Xiang (Robert）and Jiaxuan Cai (Josie) 
 
 # Introduction
 
-![Student Data Analysis](https://github.com/username/repo/blob/main/images/student_data.png?raw=true)
-
+![image](https://github.com/user-attachments/assets/9bf1e741-9f1d-469d-bed7-4987d23ba0f6)
 
 ## Background
-SpaceX, a leader in the space industry, strives to make space travel affordable for everyone. Its accomplishments include sending spacecraft to the international space station, launching a satellite constellation that provides internet access and sending manned missions to space. SpaceX can do this because the rocket launches are relatively inexpensive ($62 million per launch) due to its novel reuse of the first stage of its Falcon 9 rocket. Other providers, which are not able to reuse the first stage, cost upwards of $165 million each. By determining if the first stage will land, we can determine the price of the launch. To do this, we can use public data and machine learning models to predict whether SpaceX – or a competing company – can reuse the first stage.
+Nowadays, there are thousands of students who enroll in different major in different universities. However, our target is to predict students’ dropout and academic success. Incorporating many factors like academic path, demographics, and social-economic factors, we are going to build classification models to predict students' dropouts and academic success and we classified the problem as three category classification task. Our metric includes several steps: data understanding, cleaning, and preprocessing; Exploratory Data Analysis (EDA) and initial model prototyping;model training, hyperparameter tuning, and addressing class imbalance and final model evaluation.
+Target Variable: Target
+Features:Marital Status,Application mode,Application order,Course,Daytime/evening attendance,Previous qualification,Previous qualification (grade),Nationality,Mother's qualification,Father's qualification,Mother's occupation,Father's occupation,Admission grade,Displaced,Educational special needs,Debtor,Tuition fees up to date and so on.
 
-## Explore
-* How payload mass, launch site, number of flights, and orbits affect first-stage landing success
-* Rate of successful landings over time
-* Best predictive model for successful landing (binary classification)
+## About Dataset
 
-## Executive Summary
-The research attempts to identify the factors for a successful rocket landing. To make this determination, the following methodologies where used:
-* **Collect** data using SpaceX REST API and web scraping techniques
-* **Wrangle** data to create success/fail outcome variable
-* **Explore** data with data visualization techniques, considering the following factors: payload, launch site, flight number and yearly trend
-* **Analyze** the data with SQL, calculating the following statistics: total payload, payload range for successful launches, and total # of successful and failed outcomes
-* **Explore** launch site success rates and proximity to geographical markers
-* **Visualize** the launch sites with the most success and successful payload ranges
-* **Build Models** to predict landing outcomes using logistic regression, support vector machine (SVM), decision tree and K-nearest neighbor (KNN)
+This dataset contains continuous and categorical data aiming to explain the relationship of  students’  dropouts and academic success between many other variables (academic path, demographics, and social-economic factors) . This dataset is collected from a higher education institution (acquired from several disjoint databases) related to students enrolled in different undergraduate degrees, such as agronomy, design, education, nursing, journalism, management, social service, and technologies. In this capstone project, we will start by cleaning the data, exploratory data analysis, model training and bench marking, conclusions and findings.
 
-## Results
+## Cleaning the data
 
-### Exploratory Data Analysis:
-* Launch success has improved over time
-* KSC LC-39A has the highest success rate among landing sites
-* Orbits ES-L1, GEO, HEO, and SSO have a 100% success rate
+We start our project from a csv file. We first look at the empty value of each column and there is none. Secondly, because we want to predict the target variable, the target variable has to be numerical not text. So we developed mapping rules: Drop out to 0; Graduate to 1; Enrolled to 2.Thirdly, we started to deal with outliers. We remove outliers by setting the upper bound and lower bound by three stand deviations.
 
-### Visualization / Analytics:
-* Most launch sites are near the equator, and all are close to the coast
 
-### Predictive Analytics
-* All models performed similarly on the test set. The decision tree model slightly outperformed when looking at .best_score_
 
-# Methodology
+## Exploratory Data Analysis
 
-## Data Collection - API
-* **Request data** from SpaceX API (rocket launch data)
-* **Decode response** using .json() and convert to a dataframe using .json_normalize()
-* **Request information** about the launches from SpaceX API using custom functions
-* **Create dictionary** from the data
-* **Create dataframe** from the dictionary
-* **Filter dataframe** to contain only Falcon 9 launches
-* **Replace missing values** of Payload Mass with calculated .mean()
-* **Export data** to csv file
+First and foremost, to demonstrate the relationship between these variables, we used Pearson Correlation Matrix as follows. This heatmap can reveal the correlation with one another without being too overwhelming or compact.
 
-## Data Collection - Web Scraping
-* **Request data** (Falcon 9 launch data) from Wikipedia
-* **Create BeautifulSoup object** from HTML response
-* **Extract column names** from HTML table header
-* **Collect data** from parsing HTML tables
-* **Create dictionary** from the data
-* **Create dataframe** from the dictionary
-* **Export data** to csv file
 
-## Data Wrangling
-* **Convert outcomes** into 1 for a successful landing and 0 for an unsuccessful landing
+                                         Figure 1 Pearson Correlation Heat Map
 
-## EDA with Visualization
-* **Create charts** to analyze relationships and show comparisons
+![image](https://github.com/user-attachments/assets/836ea552-c3a3-492f-94a8-39278855f619)
 
-## EDA with SQL
-* **Query the data** to understand more about the data
+From the heat map, it’s easy to tell from the colors that -0.2 to 0.2 means little correlation, 0.2 to 0.4 means positive median correlation and 0.4 to 1 means positive strong relationship. In this case, Curricular units in 1st and 2nd term showed positive relationship with student academic success. In the plot, it’s easy to tell that there are too many dimensions in the dataset, so it’s important to use dimension reducing techniques such as PCA.
 
-## Maps with Folium
-* **Create maps** to visualize launch sites, view launch outcomes and see distance to proximities
 
-## Dashboard with Plotly Dash
-* **Create dashboard**
-* Pie chart showing successful launches
-* Scatter chart showing Payload Mass vs. Success Rate by Booster Version
+                                          Figure 2 Density Plot
+![image](https://github.com/user-attachments/assets/c17d45b5-ae91-476b-9542-7bc68ec93a33)
 
-## Predictive Analytics
-* **Create** NumPy array from the Class column
-* **Standardize** the data with StandardScaler. Fit and transform the data.
-* **Split** the data using train_test_split
-* **Create** a GridSearchCV object with cv=10 for parameter optimization
-* **Apply** GridSearchCV on different algorithms: logistic regression (LogisticRegression()), support vector machine (SVC()), decision tree (DecisionTreeClassifier()), K-Nearest Neighbor (KNeighborsClassifier())
-* **Calculate** accuracy on the test data using .score() for all models
-* **Assess** the confusion matrix for all models
-* **Identify** the best model using Jaccard_Score, F1_Score and Accuracy
+![image](https://github.com/user-attachments/assets/b71b9ee0-4718-4b0a-bec6-cb0a4b800d9e)
+
+
+Secondly, we employed density plot to check the distribution and skewness of our variables. There are several findings. For example, most of our data are single Portuguese. What’s more, most of our data are first choice. Most of our students’ previous education is around 130, which looks like normal distribution.Most of our students are daytime participants.More findings and plots are recorded in the jupyter notebook.
+
+Thirdly, there are more than 10 variables such as nationality, previous qualification, daytime/evening attendance in the dataset. Not all are closely related with our target variables. Therefore, we should first reduce the dimension of the data for further studies. Principal component analysis, is a useful tool to put a large dataset into a small dataset, while still maintains its key feature of the dataset. When choosing the number of principal components (k), we choose k to be the smallest value so that for example, 99% of variance, is retained. As stated in the jupyter notebook, when k equals 1, we retained nearly 99% of the variance.
+
+
+## Model Development and Evaluation 
+
+In the model development part, we identify predicting students' dropout and academic success as a classification problem. We choose two models including gradient boosting models and random forest for comparison and evaluation.First of all, we split data for training set and testing set. Training set is used to train our models and testing set for evaluation. Secondly, to evaluate model’s accuracy, we applied F1 score and confusion matrix. 
+F1 score usually ranges from 0 to 1, with 0 meaning the lowest possible result and 1 denoting a flawless result, meaning that the model accurately predicted each data successfully.Looking at confusion matrix for gradient boosting model, there are 87 models in testing set who are drop are successfully predicted as drop, 93 models in testing set who are drop are predicted as enrolled, 19 models models in testing set who are drop are predicted as graduate. There are there are 99 models in testing set who are graduate are predicted as drop, 196 models in testing set who are graduate are predicted as graduate, 18 models in testing set who are graduate are predicted as enrolled. There are there are 51 models in testing set who are enrolled are predicted as drop, 196 models in testing set who are enrolled are predicted as graduate, 18 models in testing set who are enrolled are predicted as enrolled.
+
+                                         Figure 3 confusion matrix for gradient boosting model
+![{6A51D5AD-1EF5-4BE4-9B90-9D17C879D6E8}](https://github.com/user-attachments/assets/a8cfdd42-adb3-473d-916e-a535ce4c723d)
+
+On the other hand, we compare random forest model to gradient boosting model. In confusion matrix for random forest model,there are 132 models in testing set who are drop are successfully predicted as drop, 0 models in testing set who are drop are predicted as enrolled, 67 models models in testing set who are drop are predicted as graduate. There are there are 157 models in testing set who are graduate are predicted as drop, 0 models in testing set who are graduate are predicted as graduate, 156 models in testing set who are graduate are predicted as enrolled. There are there are 74 models in testing set who are enrolled are predicted as drop, 0 models in testing set who are enrolled are predicted as graduate, 31 models in testing set who are enrolled are predicted as enrolled.
+
+                                         Figure 4 confusion matrix for random forest model
+![{2927C41F-7581-4284-9076-DE28BE67F33A}](https://github.com/user-attachments/assets/a0137fe9-6013-4f63-ba76-2792357bfc0b)
+
+ Our another model evaluation techniques if F1 score. Usually F1 score from 0.8-0.9, means a good score, F1 score from 0.5-0.8 means an OK score. In this case, both random forest and gradient boosting model may not perform very well due to imbalanced data. This is because of the limitations of F1 score,
+when one class significantly outweighs the other, the regular F1 score metric might not give a true picture of the model's performance. Because of the majority class’s influence, model who achieve high accuracy in the minority class may have a low F1 score.
+
+                                         Figure 5 F1 score for gradient boosting model
+![{627DAC44-1D80-4C99-916D-1CDF2F07A335}](https://github.com/user-attachments/assets/d7c6c713-0e0e-4109-9767-7d471984598c)
+
+
+                                         Figure 6 F1 score for random forest model
+![{C8424626-749A-45C8-89CA-D958E7F0825C}](https://github.com/user-attachments/assets/931c571e-0f98-4441-b8f6-cfceeb3f9f74)
 
 # Conclusion
-* **Model Performance:** The models performed similarly on the test set with the decision tree model slightly outperforming
-* **Equator:** Most of the launch sites are near the equator for an additional natural boost - due to the rotational speed of earth - which helps save the cost of putting in extra fuel and boosters
-* **Coast:** All the launch sites are close to the coast
-* **Launch Success:** Increases over time
-* **KSC LC-39A:** Has the highest success rate among launch sites. Has a 100% success rate for launches less than 5,500 kg 
-* **Orbits:** ES-L1, GEO, HEO, and SSO have a 100% success rate
-* **Payload Mass:** Across all launch sites, the higher the payload mass (kg), the higher the success rate
+Now that we have completed data cleaning, model training and model evaluation steps. And in the evaluation step,  we compared two models performance using F1 score and confusion matrix. Our conclusion is that gradient boosting model performs better than random forest model in F1 score and confusion matrix model in predicting students’ academic success. 
 
-## Additional Things to Consider
-* **Dataset:** A larger dataset will help build on the predictive analytics results to help understand if the findings can be generalizable to a larger data set
-* **Feature Analysis / PCA:** Additional feature analysis or principal component analysis should be conducted to see if it can help improve accuracy
-* **XGBoost:** Is a powerful model which was not utilized in this study. It would be interesting to see if it outperforms the other classification models
+
 
 
 
