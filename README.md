@@ -10,15 +10,27 @@ Nowadays, there are thousands of students who enroll in different major in diffe
 Target Variable: Target
 Features:Marital Status,Application mode,Application order,Course,Daytime/evening attendance,Previous qualification,Previous qualification (grade),Nationality,Mother's qualification,Father's qualification,Mother's occupation,Father's occupation,Admission grade,Displaced,Educational special needs,Debtor,Tuition fees up to date and so on.
 
-## About Dataset
+## Objectives of the Project
 
-This dataset contains continuous and categorical data aiming to explain the relationship of  students’  dropouts and academic success between many other variables (academic path, demographics, and social-economic factors) . This dataset is collected from a higher education institution (acquired from several disjoint databases) related to students enrolled in different undergraduate degrees, such as agronomy, design, education, nursing, journalism, management, social service, and technologies. In this capstone project, we will start by cleaning the data, exploratory data analysis, model training and bench marking, conclusions and findings.
+our objectives is to predict students’ dropout and academic success through building classification models such as random forest and gradient boosting to predict students' dropouts and academic success and we classified the problem as three category classification task.
 
-## Cleaning the data
+# Methodology
 
-We start our project from a csv file. We first look at the empty value of each column and there is none. Secondly, because we want to predict the target variable, the target variable has to be numerical not text. So we developed mapping rules: Drop out to 0; Graduate to 1; Enrolled to 2.Thirdly, we started to deal with outliers. We remove outliers by setting the upper bound and lower bound by three stand deviations.
+## Description of dataset
+
+This dataset contains continuous and categorical data aiming to explain the relationship of  students’  dropouts and academic success between many other variables (academic path, demographics, and social-economic factors) . This dataset is collected from a higher education institution (acquired from several disjoint databases) related to students enrolled in different undergraduate degrees, such as agronomy, design, education, nursing, journalism, management, social service, and technologies.
+
+## Analytical Techniques  and Tools and Technologies
+
+In this capstone project, we will start by cleaning the data, exploratory data analysis, model training and bench marking, conclusions and findings through Python. Our libraries includes pandas, numpy, random forest, gradient boosting. We compare random forest model and gradient boosting model.
 
 
+
+# Analysis and Results 
+
+## Data Preprocessing
+
+We start our project from a csv file. We first look at the empty value of each column and there is none. Secondly, because we want to predict the target variable, the target variable has to be numerical not text. So we developed mapping rules:Drop out to 0; Graduate to 1; Enrolled to 2.Thirdly, we started to deal with outliers. We remove outliers by setting the upper bound and lower bound by three stand deviations.
 
 ## Exploratory Data Analysis
 
