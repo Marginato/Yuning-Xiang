@@ -1,4 +1,4 @@
-# IBM-Data-Science-Capstone-SpaceX
+# Capstone Project: Predict Students' Dropout and Academic Success
 
 # Introduction
 
